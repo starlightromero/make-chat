@@ -7,11 +7,13 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 //We'll store our online users here
 let onlineUsers = {};
-io.on("connection", (socket) => {
-  // Make sure to send the users to our chat file
-  require('./sockets/chat.js')(io, socket, onlineUsers);
-})
+//Save the channels in this object.
+let channels = {"General" : []}
 
+io.on("connection", (socket) => {
+  // Make sure to send the channels to our chat file
+  require('./sockets/chat.js')(io, socket, onlineUsers, channels);
+})
 
 const exphbs  = require('express-handlebars');
 app.engine('handlebars', exphbs());

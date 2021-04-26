@@ -1,6 +1,9 @@
 //index.js
 $(document).ready(()=>{
   const socket = io.connect();
+  
+  // Get the online users from the server
+  socket.emit('get online users');
 
   //Keep track of the current user
   let currentUser;
@@ -46,6 +49,19 @@ $(document).ready(()=>{
       </div>
     `);
   })
-
+  
+  socket.on('get online users', (onlineUsers) => {
+    for(username in onlineUsers){
+      $('.users-online').append(`<div class="user-online">${username}</div>`);
+    }
+  })
+  
+  //Refresh the online user list
+  socket.on('user has left', (onlineUsers) => {
+    $('.users-online').empty();
+    for(username in onlineUsers){
+      $('.users-online').append(`<p>${username}</p>`);
+    }
+  });
 
 })

@@ -21,6 +21,11 @@ module.exports = (io, socket, onlineUsers, channels) => {
     socket.emit('get online users', onlineUsers);
   });
 
+  socket.on('get all channels', () => {
+    // Send over the onlineUsers
+    socket.emit('get all channels', channels);
+  });
+
   // This fires when a user closes out of the application
   // socket.on("disconnect") is a special listener that fires when a user exits out of the application.
   socket.on('disconnect', () => {
